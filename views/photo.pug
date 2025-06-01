@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .photo-header
+    h1 사진 게시판
+    a.write-button(href="/photo/write") 사진 추가하기
+
+  .photo-grid
+    each photo in photos
+      a.photo-card(href=`/photo/${photo.id}`)
+        .photo-thumbnail
+        .photo-title= photo.title
+

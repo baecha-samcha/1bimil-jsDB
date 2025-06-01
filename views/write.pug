@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1 글쓰기
+
+  form.write-form(action="/write" method="POST")
+    input.title-input(type="text", name="title", placeholder="제목을 입력하십시오")
+
+    // 툴바 (기능 없음, 스타일만)
+    .editor-toolbar
+      select
+        option 14
+      button(style="font-weight: bold") 가
+      button(style="font-style: oblique 14deg") 가
+      button(style="text-decoration: underline") 가
+      button(style="color: red") 가
+      button(style="background-color: yellow") 가
+      select
+        option =
+      button 링크
+      button 이미지
+
+    textarea.content-input(name="content", placeholder="내용을 입력하십시오")
+
+    button.submit-btn(type="submit") 등록하기

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .mypage-wrapper
+    .left
+      h1 Hello, admin!
+
+      .item
+        span.label 아이디: XXXXXXX
+        button.change-btn 변경하기
+      .item
+        span.label 아이디: XXXXXXX
+        button.change-btn 변경하기
+      .item
+        span.label 닉네임: XXXXXXX
+        button.change-btn 변경하기
+
+    .right
+      h2 신고된 게시물/이모티콘 목록
+
+      ul.report-list
+        li XXXXXXXX - XXX, 20XX/XX/XX
+        li XXXXXXXX - XXXXX, 20XX/XX/XX
+
+      .emoji-row
+        each i in Array(4)
+          .emoji-box

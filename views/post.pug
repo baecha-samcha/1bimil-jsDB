@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  h1 글 게시판
+
+  h2= post.title
+
+  .post-box
+    // 본문 콘텐츠 (예: 이미지, 텍스트, 이모티콘 등)
+    p.post-content= post.content
+
+    // 예시 이미지 박스
+    if post.image
+      .post-image-box
+
+  .reaction-row
+    .reaction
+      span 👍
+      span.reaction-count= post.likes
+    .reaction
+      span 👎
+      span.reaction-count= post.dislikes
+
+  // 댓글 섹션
+  table.comment-table
+    each comment in post.comments
+      tr
+        td= comment.nickname
+        td= comment.text
+
+  // 댓글 입력
+  form.comment-form(action=`/board/${post.id}/comment`, method="POST")
+    textarea(name="comment", placeholder="댓글을 입력하십시오.")
+    .comment-actions
+      a.emoji-btn(href="/emoji") 이모티콘
+      button(type="submit") 등록

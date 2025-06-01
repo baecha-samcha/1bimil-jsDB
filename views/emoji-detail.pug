@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 이모티콘
+
+  .emoji-detail-wrapper
+    .emoji-main
+      .emoji-main-left 대표<br>임티
+      .emoji-main-right
+        h2 제목제목
+        p 설명설명설명
+        .emoji-action-row
+          a.emoji-buy(href="#") $구매하기
+          a.emoji-report(href="#") 🚨신고하기
+
+  .emoji-sub-grid
+    each i in Array(12)
+      .emoji-sub-thumb

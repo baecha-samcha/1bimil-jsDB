@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 사진 추가하기
+
+  .photo-detail-wrapper
+    .photo-left
+      .photo-image-box
+    .photo-right
+      h2= photo.title
+      ul.photo-desc
+        each item in photo.desc
+          li= item
+  form.comment-form
+      button(type="submit") 등록

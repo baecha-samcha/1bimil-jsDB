@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .emoji-header
+    h1 이모티콘
+    a.emoji-create-btn(href="/emoji-write") +만들기
+
+  .emoji-grid
+    each emoji in emojis
+      .emoji-card
+        a.emoji-thumb(href="/emoji/:id")
+        .emoji-info
+          a.emoji-title(href="/emoji/:id")= emoji.title
+          a.emoji-buy-btn(href="#") $구매하기

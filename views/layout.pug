@@ -1,0 +1,19 @@
+doctype html
+html(lang="ko")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title
+    link(rel="stylesheet", href="/style.css")
+  body
+    // ✅ 메뉴바 추가
+    .navbar
+      a.navbar-left(href="/") 1급비밀
+      .menu-buttons
+        a.menu-button(href="/board") 글 게시판
+        a.menu-button(href="/photo") 사진 게시판
+        a.menu-button(href="/emoji") 이모티콘
+        a.menu-button(href="/login") 로그인
+      .sun-icon ☀️
+
+    block content

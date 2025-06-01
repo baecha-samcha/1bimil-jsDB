@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 이모티콘
+
+  form.emoji-write-form(action="/emoji-write" method="POST")
+    .emoji-write-fields
+      input.emoji-write-title(type="text", name="emoji-title", placeholder="제목을 입력하십시오")
+      textarea.emoji-write-explanation(name="explanation", rows="5", placeholder="설명을 입력하십시오")
+
+    .emoji-write-grid
+      .emoji-thumb-make
+        span 대표 임티
+      each i in Array(14)
+        .emoji-thumb-make
+
+    button.emoji-submit-btn(type="submit") 만들기
+

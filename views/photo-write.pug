@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 사진 게시판
+
+  form.photo-write-form(action="/photo/write" method="POST")
+    .photo-write-wrapper
+      .photo-left
+        .photo-image-box 사진 추가하기
+      .photo-right
+        input.photo-write-title(type="text", name="emoji-title", placeholder="제목을 입력하십시오")
+        textarea.photo-write-explanation(name="explanation", rows="5", placeholder="설명을 입력하십시오")
+
+    button.submit-btn(type="submit") 등록

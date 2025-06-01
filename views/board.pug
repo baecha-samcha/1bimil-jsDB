@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .board-header
+    h1 글 게시판
+    a.write-button(href="/write") 글쓰기
+  table.board-table
+    thead
+      tr
+        th ▽닉네임
+        th ▽제목
+        th ▽좋아요
+    tbody
+      each post in posts
+        tr
+          td= post.nickname
+          td
+            a.title-link(href=`/board/${post.id}`)
+              span.title= post.title
+              if post.hasImage
+                span.image-icon 📷
+          td.like= post.likes

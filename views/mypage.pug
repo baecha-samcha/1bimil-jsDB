@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .mypage-wrapper
+    .left
+      h1 마이페이지
+
+      .item
+        span.label 아이디: XXXXXXX
+        button.change-btn 변경하기
+      .item
+        span.label 아이디: XXXXXXX
+        button.change-btn 변경하기
+      .item
+        span.label 닉네임: XXXXXXX
+        button.change-btn 변경하기
+
+    .right
+      h2 이모티콘 목록
+      .emoji-grid
+        each i in Array(16)
+          div.emoji-box
