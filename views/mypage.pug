@@ -5,18 +5,44 @@ block content
     .left
       h1 마이페이지
 
+      // 아이디
       .item
-        span.label 아이디: XXXXXXX
-        button.change-btn 변경하기
+        span.label 아이디: #{user.username}
+        button.change-btn(type="button", onclick="toggleForm('id-form')") 변경하기
+        form#id-form(method="POST", action="/mypage/username", style="display: none; margin-top: 10px;")
+          input(type="text", name="new_username", placeholder="새 아이디", required)
+          button(type="submit") 확인
+
+      // 닉네임
       .item
-        span.label 아이디: XXXXXXX
-        button.change-btn 변경하기
+        span.label 닉네임: #{user.nickname}
+        button.change-btn(type="button", onclick="toggleForm('nickname-form')") 변경하기
+        form#nickname-form(method="POST", action="/mypage/nickname", style="display: none; margin-top: 10px;")
+          input(type="text", name="new_nickname", placeholder="새 닉네임", required)
+          button(type="submit") 확인
+
+      // 비밀번호
       .item
-        span.label 닉네임: XXXXXXX
-        button.change-btn 변경하기
+        span.label 비밀번호: #{maskedPassword}    
+        button.change-btn(type="button", onclick="toggleForm('pw-form')") 변경하기
+        form#pw-form(method="POST", action="/mypage/password", style="display: none; margin-top: 10px;")
+          input(type="password", name="new_password", placeholder="새 비밀번호", required)
+          button(type="submit") 확인
 
     .right
       h2 이모티콘 목록
       .emoji-grid
-        each i in Array(16)
-          div.emoji-box
+        if emojis.length
+          each emoji in emojis
+            div.emoji-box= emoji.name
+        else
+          p 아직 등록한 이모티콘이 없습니다.
+
+
+  script.
+    function toggleForm(id) {
+      const forms = ['id-form', 'nickname-form', 'pw-form'];
+      forms.forEach(fid => {
+        document.getElementById(fid).style.display = (fid === id && document.getElementById(fid).style.display === 'none') ? 'block' : 'none';
+      });
+    }

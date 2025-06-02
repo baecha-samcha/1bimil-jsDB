@@ -3,16 +3,34 @@ extends layout
 block content
   h1 이모티콘
 
-  .emoji-detail-wrapper
-    .emoji-main
-      .emoji-main-left 대표<br>임티
-      .emoji-main-right
-        h2 제목제목
-        p 설명설명설명
-        .emoji-action-row
-          a.emoji-buy(href="#") $구매하기
-          a.emoji-report(href="#") 🚨신고하기
+  .emoji-detail-wrapper(style="display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-bottom: 30px;")
+    .emoji-main-left(
+      style="background: #cceeff; width: 100px; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; display: flex; justify-content: center; align-items: center;")
+      img(
+        src=emoji.cover_url,
+        alt=emoji.title,
+        style="width: 100%; height: 100%; object-fit: cover;"
+      )
+    .emoji-main-center
+      h2= emoji.title
+      if emoji.explanation
+        p= emoji.explanation
+      else
+        p(style="color: #888; font-size: 0.9rem") (설명이 없습니다)
 
-  .emoji-sub-grid
-    each i in Array(12)
-      .emoji-sub-thumb
+    .emoji-main-right(style="display: flex; flex-direction: column; gap: 10px;")
+      a.emoji-buy(href="#", style="background: #00c9a7; color: white; padding: 8px 14px; border-radius: 5px; text-align: center; text-decoration: none;") $구매하기
+      a.emoji-report(href="#", style="background: red; color: white; padding: 8px 14px; border-radius: 5px; text-align: center; text-decoration: none;") 🚨신고하기
+
+  .emoji-sub-grid(
+    style="display: grid; grid-template-columns: repeat(auto-fit, 100px); gap: 8px; justify-content: left; margin: 20px auto;"
+  )
+    each url in emoji.image_urls
+      .emoji-sub-thumb(
+        style="width: 100px; height: 100px; overflow: hidden; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #fff; box-shadow: 0 0 4px rgba(0,0,0,0.1);"
+      )
+        img(
+          src=url,
+          alt="emoji",
+          style="width: 100%; height: 100%; object-fit: cover;"
+        )

@@ -1,18 +1,116 @@
 extends layout
 
 block content
-  h1 이모티콘
+  h1 이모티콘 만들기
 
-  form.emoji-write-form(action="/emoji-write" method="POST")
+  form.emoji-write-form(action="/emoji-write", method="POST", enctype="multipart/form-data")
     .emoji-write-fields
-      input.emoji-write-title(type="text", name="emoji-title", placeholder="제목을 입력하십시오")
+      input.emoji-write-title(type="text", name="emoji-title", placeholder="제목을 입력하십시오", required)
       textarea.emoji-write-explanation(name="explanation", rows="5", placeholder="설명을 입력하십시오")
+      
 
-    .emoji-write-grid
-      .emoji-thumb-make
-        span 대표 임티
-      each i in Array(14)
-        .emoji-thumb-make
+    h2 이모티콘 이미지들 (최대 50개)
+
+    .emoji-preview-grid
+      each i in [...Array(50).keys()]
+        label.emoji-thumb-make(for=`image-${i}`)
+          span= i === 0 ? '대표 이미지 업로드' : '이미지 업로드'
+          input(
+            type="file",
+            name= i === 0 ? "cover" : "images",
+            id=`image-${i}`,
+            accept="image/*",
+            style="display: none"
+          )
 
     button.emoji-submit-btn(type="submit") 만들기
 
+block scripts
+  script.
+    window.addEventListener('DOMContentLoaded', () => {
+      const dropZone = document.querySelector('.emoji-preview-grid');
+      const inputs = [...Array(50).keys()].map(i => document.getElementById(`image-${i}`));
+
+      // ✅ 개별 박스 클릭 → 파일 열기 & 미리보기
+      document.querySelectorAll('.emoji-thumb-make').forEach((label, i) => {
+        const inputId = label.getAttribute('for');
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        input.addEventListener('change', function () {
+          const file = this.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = e => {
+            const span = label.querySelector('span');
+            if (span) span.style.display = 'none';
+
+            let img = label.querySelector('img');
+            if (!img) {
+              img = document.createElement('img');
+              img.style.position = 'absolute';
+              img.style.top = 0;
+              img.style.left = 0;
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'cover';
+              label.appendChild(img);
+            }
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      // ✅ 드래그 앤 드롭 지원
+      dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.style.background = '#eef';
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.style.background = '';
+      });
+
+      dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.style.background = '';
+        const files = [...e.dataTransfer.files];
+        if (!files.length) return;
+
+        let fileIndex = 0;
+        for (let i = 0; i < inputs.length && fileIndex < files.length; i++) {
+          const input = inputs[i];
+          if (!input.files.length) {
+            const file = files[fileIndex++];
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+
+            const label = document.querySelector(`label[for="image-${i}"]`);
+            if (label) {
+              const span = label.querySelector('span');
+              if (span) span.style.display = 'none';
+
+              const reader = new FileReader();
+              reader.onload = e => {
+                let img = label.querySelector('img');
+                if (!img) {
+                  img = document.createElement('img');
+                  img.style.position = 'absolute';
+                  img.style.top = 0;
+                  img.style.left = 0;
+                  img.style.width = '100%';
+                  img.style.height = '100%';
+                  img.style.objectFit = 'cover';
+                  label.appendChild(img);
+                }
+                img.src = e.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          }
+        }
+      });
+    });

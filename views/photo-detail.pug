@@ -1,15 +1,59 @@
 extends layout
 
 block content
-  h1 사진 추가하기
+  h1= title
 
   .photo-detail-wrapper
     .photo-left
-      .photo-image-box
+        if item.image_url
+          img(src=item.image_url, alt="사진", style="width: 100%; height: auto; display: block; border-radius: 10px;")
+
+        form.comment-form(method="POST", action=`/photo/${item.id}/comment`)
+
     .photo-right
-      h2= photo.title
+      h2= item.title
       ul.photo-desc
-        each item in photo.desc
-          li= item
-  form.comment-form
+        each line in item.description
+          li= line
+
+  h2 댓글 목록
+  ul.comment-list
+    if comments.length === 0
+      li (댓글이 없습니다)
+    else
+      each c in comments
+        li
+          b= c.nickname
+          | : #{c.content}
+
+  form.comment-form(method="POST", action=`/photo/${item.id}/comment`)
+    textarea(name="comment", placeholder="댓글을 입력하세요", required)
+    .comment-actions
+      button.emoji-btn(type="button", onclick="toggleEmojiModal()") 이모티콘
       button(type="submit") 등록
+  .emoji-modal(style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid #ccc; padding: 20px; z-index: 999;")
+    h3 이모티콘 선택
+    .emoji-list(style="display: flex; flex-wrap: wrap; gap: 10px;")
+      if emojis.length
+        each emoji in emojis
+          span.emoji-item(style="cursor: pointer; font-size: 20px;" onclick=`insertEmoji('${emoji.name}')`)= emoji.name
+      else
+        p (등록된 이모티콘이 없습니다)
+    button(onclick="toggleEmojiModal()") 닫기
+
+block scripts
+  script.
+    function toggleEmojiModal() {
+      const modal = document.querySelector('.emoji-modal');
+      if (modal) {
+        modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    function insertEmoji(name) {
+      const textarea = document.querySelector('textarea[name="comment"]');
+      if (textarea) {
+        textarea.value += name;
+      }
+      toggleEmojiModal();
+    }

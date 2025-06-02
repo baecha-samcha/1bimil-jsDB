@@ -8,6 +8,6 @@ block content
   .photo-grid
     each photo in photos
       a.photo-card(href=`/photo/${photo.id}`)
-        .photo-thumbnail
+        .photo-image-box
+          img(src=photo.image_url alt=photo.title)
         .photo-title= photo.title
-

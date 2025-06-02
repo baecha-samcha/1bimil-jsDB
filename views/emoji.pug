@@ -8,7 +8,16 @@ block content
   .emoji-grid
     each emoji in emojis
       .emoji-card
-        a.emoji-thumb(href="/emoji/:id")
+        a.emoji-thumb(href=`/emoji/${emoji.id}`)
+          img(src=emoji.cover_url, alt=emoji.title)
         .emoji-info
-          a.emoji-title(href="/emoji/:id")= emoji.title
+          a.emoji-title(href=`/emoji/${emoji.id}`)= emoji.title
           a.emoji-buy-btn(href="#") $구매하기
+
+block scripts
+  if success
+    script.
+      window.onload = () => {
+        alert("성공적으로 등록되었습니다!");
+        history.replaceState(null, "", location.pathname); // ← 쿼리스트링 제거
+      };

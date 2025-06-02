@@ -1,35 +1,24 @@
+//- views/post.pug
 extends layout
 
 block content
-  h1 글 게시판
+  h1= post.title
 
-  h2= post.title
+  .post-body
+    p= post.content
 
-  .post-box
-    // 본문 콘텐츠 (예: 이미지, 텍스트, 이모티콘 등)
-    p.post-content= post.content
+  h2 댓글 목록
+  ul.comment-list
+    if comments.length === 0
+      li (댓글이 없습니다)
+    else
+      each c in comments
+        li
+          b= c.nickname
+          | : #{c.content}
 
-    // 예시 이미지 박스
-    if post.image
-      .post-image-box
-
-  .reaction-row
-    .reaction
-      span 👍
-      span.reaction-count= post.likes
-    .reaction
-      span 👎
-      span.reaction-count= post.dislikes
-
-  // 댓글 섹션
-  table.comment-table
-    each comment in post.comments
-      tr
-        td= comment.nickname
-        td= comment.text
-
-  // 댓글 입력
-  form.comment-form(action=`/board/${post.id}/comment`, method="POST")
+  //- ✅ 공통 댓글 입력 폼
+  form.comment-form(method="POST", action=`/${type}/${item.id}/comment`)
     textarea(name="comment", placeholder="댓글을 입력하십시오.")
     .comment-actions
       a.emoji-btn(href="/emoji") 이모티콘
